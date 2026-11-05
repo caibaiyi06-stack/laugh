@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>墓碑 · 音画同步场景</title>
+  <script src="src/scene-host.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>#viewport{background:#080a0c;color:#e0e4df}#viewport .eyebrow,#viewport h1 span{color:#a4b09b}#viewport #status{color:#b2bfa8}#viewport .hint{color:#8b958a}</style>
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+<link rel="stylesheet" href="scene-ui.css?v=5"><script type="module" src="src/scene-ui.js?v=20261105-soft-fade-11"></script></head>
+<body class="panel-hidden">
+  <main>
+    <section id="viewport" aria-label="可拖动查看的墓碑场景">
+      <header><span class="eyebrow">GROWTH / STUDY 04</span><h1>墓碑<span>音画同步场景</span></h1></header>
+      <p id="status" role="status">正在加载墓碑和贴图…</p>
+      <p class="hint">左键旋转 · 滚轮缩放 · 右键平移</p>
+    </section>
+    <aside aria-label="实时控制面板">
+      <nav aria-label="场景切换"><a href="index.html?nav=5">第一场景：纸箱</a> · <a href="office.html?nav=5">第二场景：办公室</a> · <a href="earth.html?nav=5">第三场景：像素地球</a> · <a href="grave.html?nav=5" aria-current="page">第四幕：墓碑</a></nav>
+      <span class="eyebrow">实时控制 / AUDIO</span><h2>让声音与墓碑相遇。</h2>
+      <p class="intro">墓碑以不同节奏和高度回应声音。音乐结束，镜头靠近中间的墓碑。</p>
+      <section id="audio-panel"></section>
+      <fieldset id="controls" disabled>
+        <label for="sensitivity">音频灵敏度 <output id="sensitivity-value">3.00</output></label>
+        <input id="sensitivity" type="range" min="0.5" max="20" step="0.5" value="3">
+        <label for="amplitude">运动幅度 <output id="amplitude-value">8.00</output></label>
+        <input id="amplitude" type="range" min="0" max="20" step="0.5" value="8" aria-describedby="motion-note">
+        <div class="range-ends"><span>0</span><span>20</span></div>
+        <label for="smoothing">平滑时间（秒） <output id="smoothing-value">0.15</output></label>
+        <input id="smoothing" type="range" min="0" max="1" step="0.01" value="0.15">
+        <label for="level">实时响应音量 <output id="level-value">0%</output></label><meter id="level" min="0" max="1" value="0"></meter>
+        <div class="buttons"><button id="toggle" type="button" aria-pressed="false">停用音频分析</button><button id="reset" type="button">恢复默认</button></div>
+        <button id="camera" class="wide" type="button">回到初始视角</button>
+      </fieldset>
+      <details open><summary>墓碑模型 <span id="count">0</span></summary><ol id="names"></ol></details>
+      <p class="note" id="motion-note">每座墓碑的高度、起跳延迟与跳动周期各不相同。暂停或停止后平滑落地；只有音频自然结束才推进镜头至中间的 XS 碑文。重新播放或点击“回到初始视角”可返回全景。</p>
+    </aside>
+  </main>
+  <script type="module" src="src/grave-main.js?v=20261105-soft-fade-11"></script>
+  <script>window.addEventListener('error',event=>{document.querySelector('#status').textContent='运行出错：'+event.message+'。请通过启动脚本打开，或检查浏览器是否支持 WebGL 2。'});</script>
+</body>
+</html>

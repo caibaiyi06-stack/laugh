@@ -1,0 +1,1 @@
+export function stepStone(t,i,e,o,f){t.waiting=Math.max(0,t.waiting-o);if(t.offset===0&&t.velocity===0&&t.waiting===0&&i>t.threshold&&e>0){const o=Math.min(t.height*.28,i*t.height*.035*t.response*e);t.velocity=Math.sqrt(2*f*o)}if(t.offset>0||t.velocity>0){t.offset+=t.velocity*o-.5*f*o*o;t.velocity-=f*o;if(t.offset<=0){t.offset=0;t.velocity=0;t.waiting=t.period*.4}}}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>矩阵办公室 · 音频驱动与重力下落</title>
+<style>html.box-arrival::after{content:"";position:fixed;inset:0;z-index:101;background:#000}</style>
+<script>try{const arrival=JSON.parse(sessionStorage.getItem('scene-arrival'));if(arrival?.fromBox&&arrival.to==='office.html'&&Date.now()-arrival.time<30000)document.documentElement.classList.add('box-arrival')}catch{}</script>
+<script src="src/scene-host.js"></script>
+<link rel="stylesheet" href="office.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script><link rel="stylesheet" href="scene-ui.css?v=5"><script type="module" src="src/scene-ui.js?v=20261105-soft-fade-11"></script></head>
+<body class="panel-hidden"><main><section id="viewport" aria-label="办公室模型"><p id="status" role="status">正在加载办公室模型与贴图…</p><p class="hint">中键／左键旋转 · Shift＋中键或右键平移 · 滚轮缩放 · 点击物体检查</p></section>
+<aside><nav aria-label="场景切换"><a href="index.html?nav=5">第一场景：纸箱</a> · <a href="office.html?nav=5" aria-current="page">第二场景：办公室</a> · <a href="earth.html?nav=5">第三场景：像素地球</a> · <a href="grave.html?nav=5">第四幕：墓碑</a></nav><h1>矩阵办公室</h1><p>第二场景 · 昏暗冷光 · 真实音频驱动</p>
+<details><summary>灯光气氛</summary><fieldset><legend>昏暗办公室</legend>
+<label for="lighting-brightness">灯光亮度 <output id="lighting-brightness-value">100%</output></label><input id="lighting-brightness" type="range" min="30" max="180" step="5" value="100">
+<label><input id="lighting-flicker" type="checkbox" checked> 灯光忽明忽暗</label>
+<p class="note">两盏冷光缓慢错开变化，偶尔短暂变暗。可关闭明暗变化，保持恒定昏暗照明。</p>
+</fieldset></details>
+<details id="audio-section" open><summary>音频文件与播放</summary><fieldset><legend>真实音频驱动</legend>
+<div id="office-audio"></div>
+<label for="audio-sensitivity">音频灵敏度 <output id="audio-sensitivity-value">3.0</output></label><input id="audio-sensitivity" type="range" min="0.5" max="20" step="0.5" value="3">
+<label for="audio-level">实时音量 <output id="audio-level-value">0%</output></label><meter id="audio-level" min="0" max="1" value="0" style="width:100%"></meter>
+<p class="note">所有参数只调节音频播放时的响应。未播放时不会启动运动；暂停、停止或结束后物体自然落下并逐渐停稳。可随时替换 MP3／WAV。若音量表经常保持 100%，请降低灵敏度，保留声音强弱变化。</p>
+</fieldset>
+</details>
+<fieldset id="batch-panel" disabled><legend>全场运动控制</legend>
+<button id="batch-start" class="whole-scene" type="button">播放音频并驱动全场</button><button id="batch-preset" type="button">应用强幅度参数（不自动播放）</button>
+<p class="note">整体与各组 0–1000%，上下 0–300%。参数变化不会在无音频时触发运动。下落使用重力、摩擦与接触响应；翻倒后保留落稳姿态，点击恢复初始状态才复位。</p>
+<p class="note">椅子、打印机、柜子、电脑＋键盘组合均参与起落。电脑和键盘是合并网格，只能整体运动；不拆模型，不动桌子。受阻方向仍会限位。</p>
+<p id="batch-actual-amplitude" class="note">实际位移将在运行时显示。</p>
+<p id="batch-lift-limits" class="note"></p>
+<p id="batch-counts" class="note"></p>
+<label for="batch-vertical">上下起落幅度（0–300%） <output id="batch-vertical-value">100%</output></label><input id="batch-vertical" type="range" min="0" max="300" step="5" value="100">
+<label for="batch-amplitude">整体运动幅度（0–1000%） <output id="batch-amplitude-value">300%</output></label><input id="batch-amplitude" type="range" min="0" max="1000" step="10" value="300">
+<label for="batch-chairs">办公椅幅度（0–1000%） <output id="batch-chairs-value">100%</output></label><input id="batch-chairs" type="range" min="0" max="1000" step="10" value="100">
+<label for="batch-desktop">文件／纸张幅度（0–1000%） <output id="batch-desktop-value">100%</output></label><input id="batch-desktop" type="range" min="0" max="1000" step="10" value="100">
+<label for="batch-printers">打印机幅度（0–1000%） <output id="batch-printers-value">100%</output></label><input id="batch-printers" type="range" min="0" max="1000" step="10" value="100">
+<label for="batch-computers">电脑＋键盘整体幅度（0–1000%） <output id="batch-computers-value">100%</output></label><input id="batch-computers" type="range" min="0" max="1000" step="10" value="100">
+<label for="batch-racks">柜子整件幅度（0–1000%） <output id="batch-racks-value">100%</output></label><input id="batch-racks" type="range" min="0" max="1000" step="10" value="100">
+<details><summary>仍然跳过的类型</summary><label for="batch-partitions">48 个隔断与桌体合并，保持静止</label><input id="batch-partitions" type="range" min="0" max="200" value="0" disabled><p class="note">另有 12 个多叠文件网格与 48 个未确认的独立塔式主机保持静止。</p></details>
+<label for="batch-inertia">重量／惯性差异 <output id="batch-inertia-value">1.00</output></label><input id="batch-inertia" type="range" min="0" max="2" step="0.05" value="1">
+<label for="batch-damping">阻尼 <output id="batch-damping-value">1.00</output></label><input id="batch-damping" type="range" min="0.25" max="2" step="0.05" value="1">
+<label for="batch-smoothing">音量平滑（越低越跟手） <output id="batch-smoothing-value">0.05</output></label><input id="batch-smoothing" type="range" min="0" max="1" step="0.05" value="0.05">
+<label for="batch-rocking">声音触发的多轴转动冲量 <output id="batch-rocking-value">100%</output></label><input id="batch-rocking" type="range" min="0" max="300" step="5" value="100">
+<p class="note">声音只在起动、接触支撑时提供短促冲量；离开支撑后按重力下落，不持续悬托。空中不会强行追随每个音量峰值，落地后的动作再次响应声音。</p>
+<label for="batch-tipping">下落失衡／侧翻概率 <output id="batch-tipping-value">30%</output></label><input id="batch-tipping" type="range" min="0" max="100" step="1" value="30">
+<p class="note">每次音频播放后，物体首次下落时判定一次偏心冲量；实际翻倒由惯性、接触与空间决定。0% 关闭额外失衡冲量。碰撞使用简化刚体，并非逐三角面的精确碰撞。</p>
+<button id="batch-stop" type="button">停止并回稳</button><button id="batch-reset" type="button">恢复全部初始状态</button><button id="batch-overview" type="button">查看全景</button>
+<p id="batch-safe-counts" class="note"></p>
+<p id="batch-state" role="status">等待音频文件</p><p class="note">电脑和键盘仍只能整组控制。刚体碰撞使用简化包围盒，桌体与隔断使用分离薄板碰撞体，保留桌下空间。</p>
+</fieldset>
+<details><summary>合并网格复查与 Blender 建议</summary><p class="note">49 个电脑组合：当前已启用组合整体运动，但每个仍只有一个网格图元、无子节点，不能分别控制显示器与键盘。若需分别响应，请在 Blender 编辑模式选中对应部件，P → 选中项分离。</p><p class="note">48 个桌体＋隔断：仍保持静止；隔断要动必须先与桌体拆分，保留世界位置及材质。</p><p class="note">原模型未修改。鼠标、电话尚未独立确认。</p></details>
+<p class="note">GLB 未包含相机、灯光和世界环境。本页使用独立检查视角与预览照明，不代表 Blender 原构图。</p>
+<button id="frame">查看完整场景</button> <button id="download">导出对象清单</button>
+<p id="stats"></p><p id="performance"></p><div id="summary"></div>
+<label for="filter">对象筛选</label><select id="filter"><option value="all">全部对象</option><option value="static">静态</option><option value="dynamic">动态候选</option><option value="review">待确认（静止）</option><option value="empty">空节点</option></select>
+<label for="search">名称 / 节点编号</label><input id="search" type="search" placeholder="输入名称或编号">
+<label for="objects">原始节点列表</label><select id="objects" size="10"></select><button id="focus">定位所选物体</button><button id="clear">清除标记</button>
+<pre id="details">选择节点查看类型、父子层级与独立控制边界。</pre>
+<details><summary>分类与模型限制</summary><div id="limitations"></div></details>
+</aside></main><script type="module" src="src/office-main.js?v=20261105-soft-fade-11"></script></body></html>
+

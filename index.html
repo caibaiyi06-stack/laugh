@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>生长 · 纸箱音画与物理</title>
+  <script src="src/scene-host.js"></script>
+<link rel="stylesheet" href="style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+<link rel="stylesheet" href="scene-ui.css?v=5"><script type="module" src="src/scene-ui.js?v=20261105-soft-fade-11"></script></head>
+<body class="panel-hidden">
+  <main>
+    <section id="viewport" aria-label="可拖动查看的纸箱场景">
+      <header><span class="eyebrow">GROWTH / STUDY 01</span><h1>生长<span>纸箱音画实验</span></h1></header>
+      <p id="status" role="status">正在加载纸箱和贴图…</p>
+      <p class="hint">左键旋转 · 滚轮缩放 · 右键平移</p>
+    </section>
+    <aside aria-label="实时控制面板">
+      <nav aria-label="场景切换"><a href="index.html?nav=5" aria-current="page">第一场景：纸箱</a> · <a href="office.html?nav=5">第二场景：办公室</a> · <a href="earth.html?nav=5">第三场景：像素地球</a> · <a href="grave.html?nav=5">第四幕：墓碑</a></nav>
+      <span class="eyebrow">实时控制 / PHYSICS</span><h2>让运动在纸箱间传递。</h2>
+      <p class="intro">声音起伏向上推动纸箱，重力使它落下。单箱模式下，上层也会被下层顶起。</p>
+      <section id="audio-panel"></section><fieldset id="controls" disabled><label><input id="group" type="checkbox" checked> 向整组纸箱施力</label><label for="weight">重量差异 <output id="weight-value">1.00</output></label><input id="weight" type="range" min="0" max="2" step="0.05" value="1"><label for="intensity">整体运动强度 <output id="intensity-value">5.60</output></label><input id="intensity" type="range" min="0" max="10" step="0.05" value="5.6"><label for="damping">阻尼 <output id="damping-value">0.80</output></label><input id="damping" type="range" min="0.01" max="2" step="0.01" value="0.8">
+        <label for="box">直接受力对象</label><select id="box"></select>
+        <label for="amplitude">驱动幅度 <output id="amplitude-value">12</output></label>
+        <input id="amplitude" type="range" min="0" max="20" step="0.5" value="12">
+        <div class="range-ends"><span>不施力 0</span><span>20</span></div>
+        <label for="level">实时响度 <output id="level-value">0%</output></label><meter id="level" min="0" max="1" value="0"></meter>
+        <div class="buttons"><button id="toggle" type="button" aria-pressed="false">停用音频驱动</button><button id="reset" type="button">恢复默认</button></div>
+        <button id="restack" class="wide" type="button">重新堆叠（保留参数）</button><button id="camera" class="wide" type="button">回到初始视角</button>
+      </fieldset>
+      <details open><summary>独立纸箱 <span id="count">0</span></summary><ol id="names"></ol></details>
+      <p class="note">停止音频后，纸箱仍受重力与碰撞影响，逐渐稳定。强驱动可能使堆叠倾倒，可点击“重新堆叠”还原。</p>
+    </aside>
+  </main>
+  <script type="module" src="src/main.js?v=20261105-soft-fade-11"></script>
+  <script>window.addEventListener('error',event=>{document.querySelector('#status').textContent='运行出错：'+event.message+'。请通过启动脚本打开，或检查浏览器是否支持 WebGL 2。'});</script>
+</body>
+</html>
+
+
+
+

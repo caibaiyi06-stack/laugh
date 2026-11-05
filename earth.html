@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>方形像素地球 · 音频驱动</title>
+<script src="src/scene-host.js"></script>
+<link rel="stylesheet" href="office.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script><link rel="stylesheet" href="scene-ui.css?v=5"><script type="module" src="src/scene-ui.js?v=20261105-soft-fade-11"></script></head>
+<body class="panel-hidden"><main><section id="viewport" aria-label="方形像素地球"><p id="status" role="status">正在读取原始 GLB 与贴图…</p><p class="hint">拖动自由翻转（不限轴） · 滚轮缩放 · 触屏单指旋转、双指缩放</p></section>
+<aside><nav aria-label="场景切换"><a href="index.html?nav=5">第一场景：纸箱</a> · <a href="office.html?nav=5">第二场景：办公室</a> · <a href="earth.html?nav=5" aria-current="page">第三场景：像素地球</a> · <a href="grave.html?nav=5">第四幕：墓碑</a></nav>
+<h1>方形像素地球</h1><p>第三场景 · 六面像素 · 音频驱动</p>
+<fieldset><legend>音频文件与播放</legend>
+<div id="earth-audio"></div>
+<label for="sensitivity">音频灵敏度 <output id="sensitivity-value">3.0</output></label><input id="sensitivity" type="range" min="0.5" max="20" step="0.5" value="3">
+<label for="playback-volume">播放音量 <output id="playback-volume-value">100%</output></label><input id="playback-volume" type="range" min="0" max="1" step="0.01" value="1">
+<label for="audio-level">实时响应音量 <output id="audio-level-value">0%</output></label><meter id="audio-level" min="0" max="1" value="0" style="width:100%"></meter>
+</fieldset>
+<fieldset id="controls" disabled><legend>像素运动</legend>
+<label for="height">最大凸起（相对地球边长） <output id="height-value">127%</output></label><input id="height" type="range" min="0" max="1.5" step="0.01" value="1.27">
+<label for="ratio">参与比例 <output id="ratio-value">34%</output></label><input id="ratio" type="range" min="0" max="1" step="0.01" value="0.34">
+<label for="variation">随机幅度差异 <output id="variation-value">80%</output></label><input id="variation" type="range" min="0" max="1" step="0.01" value="0.8">
+<label for="delay">最大响应延迟（秒） <output id="delay-value"></output></label><input id="delay" type="range" min="0" max="0.8" step="0.01" value="0.35">
+<label for="threshold">触发阈值 <output id="threshold-value"></output></label><input id="threshold" type="range" min="0" max="0.8" step="0.01" value="0.12">
+<label for="rise">伸长速度 <output id="rise-value"></output></label><input id="rise" type="range" min="2" max="24" step="0.5" value="10">
+<label for="fall">回缩速度 <output id="fall-value"></output></label><input id="fall" type="range" min="2" max="24" step="0.5" value="8">
+<button id="reset" type="button">回到平整表面</button>
+<button id="compare" type="button" aria-pressed="false">查看原始模型</button>
+<p class="note">六面色块沿各自外法线伸缩。不同色块具有固定的响应幅度、延迟与触发阈值。回零后准确恢复表面。</p>
+</fieldset>
+<fieldset><legend>视图</legend><label for="rotation">自动多轴旋转（0 关闭） <output id="rotation-value">0.9</output></label><input id="rotation" type="range" min="-2" max="2" step="0.1" value="0.9"><label for="distance">镜头距离 <output id="distance-value">100%</output></label><input id="distance" type="range" min="80" max="300" value="100"></fieldset>
+<p id="stats"></p><p class="note">原图为 12×12 色块，边界间距为 40 或 48 像素。本次准确保留这些边界，因此部分柱体截面为矩形。侧面按实际 UV 旋转排列，边缘色块精确裁切，保留原图的重复采样。</p>
+<p class="note">原始模型对照同样使用最近邻采样，以便检查颜色与边界。所有像素共用真实音频 RMS 分析器。</p>
+</aside></main><script type="module" src="src/earth-main.js?v=20261105-soft-fade-11"></script></body></html>
+
+
+
+

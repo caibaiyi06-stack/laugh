@@ -1,0 +1,1 @@
+export function simulatedLevel(e){return.15+.85*(.5+.5*Math.sin(e*1.8))**2}
